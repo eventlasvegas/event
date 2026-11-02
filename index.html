@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800" rel="stylesheet">
+<title>Event Helper | Las Vegas</title>
+<style>
+:root{--pink:#ff3d9a;--bg:#09080b;--panel:#121015}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:#eee;font-family:"Inter",Arial,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:-50%;z-index:-2;background:radial-gradient(ellipse at 30% 30%,#ff3d9a20,transparent 35%),radial-gradient(ellipse at 75% 65%,#a51a7040,transparent 35%),radial-gradient(ellipse at 50% 100%,#ff3d9a12,transparent 40%);animation:bgmove 18s ease-in-out infinite alternate;pointer-events:none} @keyframes bgmove{0%{transform:translate(-3%,-2%) scale(1)}50%{transform:translate(3%,2%) scale(1.08)}100%{transform:translate(-2%,4%) scale(1.03)}}
+#loader{position:fixed;inset:0;background:#09080b;z-index:99;display:grid;place-content:center;text-align:center;transition:.6s}
+#loader.hide{opacity:0;visibility:hidden}
+.loadtitle{font-size:28px;font-weight:900;letter-spacing:4px}
+.loadtitle span{color:var(--pink)}
+.bar{height:3px;width:180px;background:#30202b;margin:22px auto;overflow:hidden}
+.bar:after{content:"";display:block;width:50%;height:100%;background:var(--pink);animation:load 1s infinite}
+@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(220%)}}
+header{height:78px;padding:0 8%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff15;background:#09080bea;position:sticky;top:0;z-index:10;backdrop-filter:blur(15px)}
+.logo{font-size:17px;font-weight:900;letter-spacing:2px}.logo span{color:var(--pink)}
+nav{display:flex;gap:10px;flex-wrap:wrap}
+nav button{background:transparent;border:1px solid transparent;color:#999;padding:12px 15px;cursor:pointer;font-size:12px;transition:.25s}
+nav button:hover,nav button.active{color:var(--pink);border-color:#ff3d9a65;background:#ff3d9a0b}
+main{max-width:1200px;margin:auto;padding:45px 20px 90px}
+.page{display:none;animation:appear .5s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.hero{min-height:550px;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.circle{position:absolute;width:470px;height:470px;border:1px solid #ff3d9a20;border-radius:50%;animation:spin 35s linear infinite}
+.circle:after{content:"";position:absolute;inset:35px;border:1px solid #ff3d9a25;border-radius:50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-content{position:relative;z-index:1}
+.eyebrow{color:var(--pink);letter-spacing:5px;font-size:11px}
+h1{font-size:clamp(48px,9vw,95px);letter-spacing:-4px;margin:28px 0 15px}
+h1 span,h2 span{color:var(--pink)}
+.hero p{color:#999;font-size:15px}
+.btn{display:inline-block;margin:30px 7px 0;padding:16px 28px;background:var(--pink);color:white;text-decoration:none;border:1px solid var(--pink);font-size:11px;font-weight:bold;letter-spacing:2px;transition:.3s}
+.btn:hover{background:transparent;color:var(--pink);transform:translateY(-3px);box-shadow:0 0 25px #ff3d9a35}
+.btn-outline{background:transparent;color:var(--pink)}
+.scroll{margin-top:65px;color:#666;font-size:10px;letter-spacing:4px}
+.heading{text-align:center;margin:35px 0 40px}
+.label{color:var(--pink);font-size:10px;letter-spacing:5px;margin-bottom:16px}
+h2{font-size:clamp(28px,5vw,43px);margin-bottom:14px}
+.subtitle{color:#888;font-size:14px}
+.card{max-width:850px;margin:25px auto;padding:40px;border:1px solid #ff3d9a40;background:linear-gradient(135deg,#ff3d9a0d,#ffffff03);line-height:2;color:#aaa;text-align:center}
+.card strong{color:var(--pink)}
+.help{max-width:850px;margin:20px auto;padding:25px;text-align:center;background:var(--panel);border:1px solid #ffffff15;color:#aaa;line-height:1.8}
+.help strong{color:var(--pink)}
+.discord-card{max-width:650px;margin:40px auto;padding:45px 25px;text-align:center;background:var(--panel);border:1px solid #ff3d9a45}
+.discord-card p{color:#999;line-height:1.8;margin-top:15px}
+.form-wrap{max-width:950px;margin:35px auto;padding:10px;background:#151218;border:1px solid #ff3d9a55}
+iframe{width:100%;height:1250px;border:0;background:white;display:block}
+footer{padding:30px;text-align:center;border-top:1px solid #ffffff15;color:#666;font-size:11px;letter-spacing:2px;line-height:2}
+footer span{color:var(--pink)}
+@media(max-width:650px){header{height:auto;min-height:75px;padding:12px 4%;gap:10px;flex-direction:column}.logo{font-size:14px}nav{justify-content:center;gap:2px}nav button{padding:10px 9px;font-size:11px}main{padding:20px 12px 60px}.hero{min-height:480px}h1{letter-spacing:-2px}.circle{width:330px;height:330px}.card{padding:25px 17px}iframe{height:1400px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="particles" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.55"></canvas>
+<div id="loader">
+ <div class="loadtitle">EVENT <span>HELPER</span></div>
+ <div class="bar"></div>
+ <small style="color:#777;letter-spacing:4px">LAS VEGAS</small>
+</div>
+
+<header>
+ <div class="logo">MAJESTIC <span>ROLE PLAY</span></div>
+ <nav>
+  <button class="active" data-tab="home">Главная</button>
+  <button data-tab="about">О наборе</button>
+  <button data-tab="application">Заявление</button>
+  <button data-tab="discord">Discord</button>
+ </nav>
+</header>
+
+<main>
+ <div class="page active" id="home">
+  <div class="hero">
+   <div class="circle"></div>
+   <div class="hero-content">
+    <div class="eyebrow">MAJESTIC ROLE PLAY • LAS VEGAS</div>
+    <h1>EVENT <span>HELPER</span></h1>
+    <p>Стань частью команды организации мероприятий</p>
+    <button class="btn" onclick="switchTab('application')">ПОДАТЬ ЗАЯВЛЕНИЕ</button>
+    <button class="btn btn-outline" onclick="switchTab('discord')">НАШ DISCORD</button>
+    <div class="scroll">WELCOME TO LAS VEGAS</div>
+   </div>
+  </div>
+ </div>
+
+ <div class="page" id="about">
+  <div class="heading">
+   <div class="label">01 — INFORMATION</div>
+   <h2>О <span>НАБОРЕ</span></h2>
+   <p class="subtitle">Открыт набор на должность Event Helper</p>
+  </div>
+  <div class="card">
+   Мы приглашаем активных и ответственных игроков присоединиться к команде Event Helper сервера Las Vegas.<br>
+   Ваша задача — помогать в организации мероприятий, создавать интересный игровой процесс и поддерживать положительную атмосферу на сервере.<br><br>
+   <strong>Готов проявить себя? Оставляй заявление!</strong>
+  </div>
+  <div class="help">
+   Не понимаешь, как заполнить заявление или возникли вопросы?<br>
+   Обратись за помощью к <strong>Pharaon</strong>.
+  </div>
+  <center><button class="btn" onclick="switchTab('application')">ПЕРЕЙТИ К ЗАЯВЛЕНИЮ</button></center>
+ </div>
+
+ <div class="page" id="application">
+  <div class="heading">
+   <div class="label">02 — APPLICATION</div>
+   <h2>ПОДАТЬ <span>ЗАЯВЛЕНИЕ</span></h2>
+   <p class="subtitle">Заполните форму для вступления в команду</p>
+  </div>
+  <div class="form-wrap">
+   <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSezaWPyCd-2iekWqJH5FGpsDwwvu_IExC5xY51q1pRwL7qFFQ/viewform?embedded=true" title="Заявление Event Helper" loading="lazy">Загрузка формы…</iframe>
+  </div>
+ </div>
+
+ <div class="page" id="discord">
+  <div class="heading">
+   <div class="label">03 — COMMUNITY</div>
+   <h2>НАШ <span>DISCORD</span></h2>
+   <p class="subtitle">Присоединяйся к сообществу Event Helper</p>
+  </div>
+  <div class="discord-card">
+   <h2>EVENT <span>HELPER</span></h2>
+   <p>Есть вопросы по заявлению? Нужна помощь с заполнением?<br>Присоединяйся к Discord и обратись к Pharaon.</p>
+   <a class="btn" href="https://discord.gg/Pqs796HA6" target="_blank" rel="noopener">ПРИСОЕДИНИТЬСЯ К DISCORD</a>
+  </div>
+ </div>
+</main>
+
+<footer>MAJESTIC ROLE PLAY • LAS VEGAS<br><span>EVENT HELPER</span> — APPLICATION CENTER</footer>
+
+<script>
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+let particles=[];
+function resizeCanvas(){
+ canvas.width=window.innerWidth;
+ canvas.height=window.innerHeight;
+ particles=Array.from({length:Math.min(75,Math.floor(canvas.width/18))},()=>({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  r:Math.random()*1.8+.4,
+  speed:Math.random()*.35+.12,
+  alpha:Math.random()*.5+.15
+ }));
+}
+function animateParticles(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ particles.forEach(p=>{
+  p.y-=p.speed;
+  if(p.y<0){p.y=canvas.height;p.x=Math.random()*canvas.width}
+  ctx.beginPath();
+  ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+  ctx.fillStyle=`rgba(255,61,154,${p.alpha})`;
+  ctx.shadowBlur=12;
+  ctx.shadowColor="#ff3d9a";
+  ctx.fill();
+ });
+ requestAnimationFrame(animateParticles);
+}
+window.addEventListener("resize",resizeCanvas);
+resizeCanvas();
+animateParticles();
+
+function switchTab(name){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+ document.getElementById(name).classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hide'),650));
+</script>
+</body>
+</html>
+
+
